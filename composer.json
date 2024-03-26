@@ -1,0 +1,13 @@
+{
+    "require": {
+        "illuminate/database": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "app/Controller/",
+            "Model\\": "app/Model/",
+            "View\\": "app/View/"
+        }
+    }
+    
+}
