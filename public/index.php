@@ -72,15 +72,17 @@
                     $id = $_POST['id'];               
                     $controller->delete($id); //da erro não esta acessando a função
                 }else{
+                    
                     // Verifica se os campos obrigatórios estão presentes
                     if (isset($_POST['name']) && isset($_POST['email'])) {
+                        
                         // Captura os valores dos campos do formulário
                         $name = $_POST['name'];
                         $email = $_POST['email'];
                         $cores = $_POST['cores'];
                         $coresUser = $_POST['coresUser'];
                         
-                        if (strpos($requestUri, '/create') === 0) {
+                        if (strpos($requestUri, '/create') !== false) {
                             // Chama o método store() do UserController
                             $controller->store(['name' => $name, 'email' => $email]);
                         }else{
@@ -88,6 +90,7 @@
                         }                    
                     }
                 }
+                die();
                 break;
         }
     }else {

@@ -63,12 +63,14 @@ O sistema possui duas tabelas principais:
 
 ## 10. sistema
 • tela principal
-
+![Disegna](https://raw.githubusercontent.com/simonedisegna/crud-simples/main/public/img/principal.jpg)
 • tela edição
+- **Aprimorada a funcionalidade de seleção de cores para permitir que o usuário salve várias cores. As cores selecionadas são exibidas no lado esquerdo da lista de opções após serem salvas, e o usuário pode remover as cores selecionadas clicando nelas novamente.**
+![Disegna](https://raw.githubusercontent.com/simonedisegna/crud-simples/main/public/img/edicao.jpg)
 
-## 10. Testes
+## 11. Testes
 • Testes unitários para verificar a funcionalidade de cada método do controlador.
 • Testes de integração para garantir a integridade dos dados após a interação do usuário.
 
-## 11. Conclusão
+## 12. Conclusão
 Este projeto demonstra a implementação de um CRUD simples em PHP, fornecendo uma base sólida para o gerenciamento de informações de usuários. Futuras melhorias podem incluir a adição de recursos de autenticação de usuários, validação de formulários e melhorias na interface do usuário.
