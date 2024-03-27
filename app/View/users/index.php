@@ -1,10 +1,6 @@
 <?php
 /// Prepara a consulta SQL para selecionar todos os usuários e suas cores associadas
-$stmt = $pdo->query('SELECT u.*, c.name AS color_name , c.hexadecimal
-                        FROM users u 
-                        LEFT JOIN user_colors uc ON uc.user_id = u.id
-                        LEFT JOIN colors c ON uc.color_id = c.id
-                        ORDER BY u.name ASC');
+$stmt = $pdo->query('SELECT u.* FROM users u ORDER BY u.name ASC');
 
 // Obtém todos os usuários como um array associativo
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -18,7 +14,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tr>
                 <th>Nome</th>
                 <th>Email</th>
-                <th>Cor</th>
+                <th>Cores</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -27,7 +23,21 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tr>                    
                     <td><?= $user['name'] ?></td>
                     <td><?= $user['email'] ?></td>
-                    <td class="color-cell" style="background-color:<?=$user['hexadecimal']?>; color:#fff"><center><?= $user['color_name'] ?></center></td>                 
+                    <td class="color-cell" style="background-color:<?=$user['hexadecimal']?>; color:#fff"><center>
+                    <select multiple style='width:150px'>
+                            <?php
+                                // Preparar a consulta SQL para selecionar as cores associadas ao usuário
+                                $stmtColor = $pdo->prepare('SELECT c.* FROM colors c INNER JOIN user_colors uc ON c.id = uc.color_id WHERE uc.user_id = :userId');
+                                $stmtColor->execute(['userId' => $user['id']]);
+                                $cores = $stmtColor->fetchAll(PDO::FETCH_ASSOC);
+
+                                // Exibir as cores em um menu suspenso
+                                foreach ($cores as $cor) {
+                                    echo "<option value='{$cor['id']}' style='background-color:{$cor['hexadecimal']}; color:#fff;'>{$cor['name']}</option>";
+                                }
+                            ?>
+                    </select>   
+                    <?= $user['color_name'] ?></center></td>                 
                     <td>
                         <a href="/users/<?= $user['id'] ?>/edit" class="btn btn-primary">Editar</a>
                         <form action="/users/" method="POST" style="display: inline;">

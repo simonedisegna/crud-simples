@@ -77,13 +77,14 @@
                         // Captura os valores dos campos do formulário
                         $name = $_POST['name'];
                         $email = $_POST['email'];
-                        $idColor = $_POST['cor'];
+                        $cores = $_POST['cores'];
+                        $coresUser = $_POST['coresUser'];
                         
                         if (strpos($requestUri, '/create') === 0) {
                             // Chama o método store() do UserController
                             $controller->store(['name' => $name, 'email' => $email]);
                         }else{
-                            $controller->update($_POST['id'],$name,$email,$idColor);
+                            $controller->update($_POST['id'],$name,$email,$cores,$coresUser);
                         }                    
                     }
                 }

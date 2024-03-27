@@ -61,6 +61,11 @@ O sistema possui duas tabelas principais:
 • Interpretação de solicitações HTTP para determinar a ação a ser executada.
 • Integração com o banco de dados SQLite para persistência de dados.
 
+## 10. sistema
+• tela principal
+
+• tela edição
+
 ## 10. Testes
 • Testes unitários para verificar a funcionalidade de cada método do controlador.
 • Testes de integração para garantir a integridade dos dados após a interação do usuário.

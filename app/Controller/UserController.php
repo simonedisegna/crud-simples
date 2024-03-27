@@ -69,43 +69,50 @@ class UserController
     }
 
 
-    public function update($userId, $name,$email,$idColor)
+    public function update($userId, $name, $email, $cores, $coresUser)
     {
         try {
-            // Preparar a consulta SQL para inserir um novo usuário
+            // Iniciar uma transação
+            $this->db->beginTransaction();
+
+            // Preparar a consulta SQL para atualizar o usuário
             $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id");
             $stmt->bindParam(':id', $userId);
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':email', $email);
             $stmt->execute();
-
-            $verify = $this->verifyColor($userId);
            
-            if($verify > 0){
-                $stmtColor = $this->db->prepare("UPDATE user_colors SET color_id = :idColor WHERE user_id = :user_id");
-                $stmtColor->bindParam(':idColor', $idColor);
-                $stmtColor->bindParam(':user_id', $userId);
-                $stmtColor->execute();
-            }else{
-                $stmtColor = $this->db->prepare("INSERT INTO user_colors(color_id, user_id) VALUES (:idColor, :user_id)");
-                $stmtColor->bindParam(':idColor', $idColor); 
-                $stmtColor->bindParam(':user_id', $userId);
-                $stmtColor->execute();
-                $stmt->execute();
+            if($coresUser){
+                foreach ($coresUser as $colorIdu) {
+                    $stmtDelete = $this->db->prepare("DELETE FROM user_colors WHERE user_id = :user_id AND color_id = :color_id");
+                    $stmtDelete->bindParam(':user_id', $userId);
+                    $stmtDelete->bindParam(':color_id', $colorIdu); // Corrigido para color_id
+                    $stmtDelete->execute();
+                }
             }
 
-            $_SESSION['success_message'] = "Usuário editado com sucesso!";
-            // Redirecionar para a página de listagem de usuários após a inserção
+
+            // Inserir as novas cores selecionadas na tabela user_colors
+            $stmtInsert = $this->db->prepare("INSERT INTO user_colors (color_id, user_id) VALUES (:color_id, :user_id)");
+            foreach ($cores as $colorId) {
+                $stmtInsert->bindParam(':color_id', $colorId);
+                $stmtInsert->bindParam(':user_id', $userId);
+                $stmtInsert->execute();
+            }
+
+            // Commit da transação
+            $this->db->commit();
+
+            $_SESSION['success_message'] = "Usuário atualizado com sucesso!";
+            // Redirecionar para a página de listagem de usuários após a atualização
             header("Location: /");
             exit();
         } catch (\PDOException $e) {
-            // Em caso de erro na inserção, exibir uma mensagem de erro
-            echo "Erro ao inserir usuário: " . $e->getMessage();
+            // Em caso de erro, fazer o rollback da transação
+            $this->db->rollBack();
+            // Exibir uma mensagem de erro
+            echo "Erro ao atualizar usuário: " . $e->getMessage();
         }
-
-        $stmt = $this->db->prepare('');
-        $stmt->execute([$name, $email, $userId]);
-        echo "Usuário atualizado com sucesso!";
     }
 
     public function delete($userId)
