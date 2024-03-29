@@ -95,7 +95,7 @@ O sistema possui duas tabelas principais:
 - Inicie o servidor web na pasta raiz do projeto.
 - Acesse o projeto pelo navegador.
 
-## Estrutura do Banco de Dados
+## 13. Estrutura do Banco de Dados
 O banco de dados do projeto consiste em três tabelas:
 
 1. **Tabela users:**
@@ -111,10 +111,10 @@ O banco de dados do projeto consiste em três tabelas:
 3. **Tabela colors:**
 
 - Estabelece a relação entre usuários e cores.
-- Campos: color_id, user_id.
-- Chave primária composta pelos campos color_id e user_id.
+- Campos: id, color_id, user_id.
 
-## Funcionalidades
+
+## 14. Funcionalidades
 
 **Cadastro de Usuários:**
 ***Permite criar novos usuários fornecendo nome e email.**
@@ -128,5 +128,5 @@ O banco de dados do projeto consiste em três tabelas:
 **Vinculação/Desvinculação de Cores:**
 ***Permite associar ou desassociar várias cores a cada usuário.***
 
-## 12. Conclusão
+## 15. Conclusão
 Este projeto demonstra a implementação de um CRUD simples em PHP, fornecendo uma base sólida para o gerenciamento de informações de usuários. Futuras melhorias podem incluir a adição de recursos de autenticação de usuários, validação de formulários e melhorias na interface do usuário.
